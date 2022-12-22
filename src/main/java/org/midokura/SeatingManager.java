@@ -43,9 +43,12 @@ public class SeatingManager {
     }
   }
 
-  /* Whether seated or not, the group leaves the restaurant. */
+  /** Whether seated or not, the group leaves the restaurant.
+   * Time complexity is O(n) here since removing the group requires us to read all the values
+   * */
   public void leaves(CustomerGroup group) {
-
+    tables.values().remove(group);
+    waitingGroups.remove(group);
   }
 
   /* Return the table at which the group is seated, or null if

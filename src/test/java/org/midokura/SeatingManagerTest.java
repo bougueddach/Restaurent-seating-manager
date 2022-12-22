@@ -67,7 +67,34 @@ class SeatingManagerTest {
   }
 
   @Test
-  void leaves() {
+  void leaves_whenCustomerIsSeated_removeIt() {
+
+    sut.getTables().put(TABLE_OF_FOUR, GROUP_OF_THREE);
+
+    sut.leaves(GROUP_OF_THREE);
+
+    assertThat(sut.getWaitingGroups()).doesNotContain(GROUP_OF_THREE);
+    assertThat(sut.getTables().values()).doesNotContain(GROUP_OF_THREE);
+  }
+
+  @Test
+  void leaves_whenCustomerIsWaiting_removeIt() {
+
+    sut.getWaitingGroups().offer(GROUP_OF_SIX);
+
+    sut.leaves(GROUP_OF_SIX);
+
+    assertThat(sut.getWaitingGroups()).doesNotContain(GROUP_OF_SIX);
+    assertThat(sut.getTables().values()).doesNotContain(GROUP_OF_SIX);
+  }
+
+  @Test
+  void leaves_whenIsNeitherSeatedOrWaiting_doNothing() {
+
+    sut.leaves(GROUP_OF_SIX);
+
+    assertThat(sut.getWaitingGroups()).doesNotContain(GROUP_OF_SIX);
+    assertThat(sut.getTables().values()).doesNotContain(GROUP_OF_SIX);
   }
 
   @Test
