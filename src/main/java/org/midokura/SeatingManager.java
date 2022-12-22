@@ -20,7 +20,10 @@ public class SeatingManager {
     }
   }
 
-  /* Group arrives and wants to be seated. */
+  /** Group arrives and wants to be seated.
+   * The worst case time complexity of this function is O(n) bc we only loop once
+   * Space complexity is constant as we are not adding any data structure to help with computation
+  * */
   public void arrives(CustomerGroup group) {
     if (group.size > 6 || group.size < 2) {
       return;
