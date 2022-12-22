@@ -98,6 +98,16 @@ class SeatingManagerTest {
   }
 
   @Test
-  void locate() {
+  void locate_whenGroupIsSeated_returnTheirTable() {
+    sut.getTables().put(TABLE_OF_FOUR, GROUP_OF_THREE);
+
+    assertThat(sut.locate(GROUP_OF_THREE)).isEqualTo(TABLE_OF_FOUR);
+  }
+  @Test
+  void locate_whenGroupIsNotSeated_returnNull() {
+
+    sut.locate(GROUP_OF_THREE);
+
+    assertThat(sut.getTables().values()).doesNotContain(GROUP_OF_THREE);
   }
 }
