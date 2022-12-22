@@ -1,27 +1,43 @@
 package org.midokura;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
-import java.util.stream.Collectors;
 
 public class SeatingManager {
-
   private Map<Table, CustomerGroup> tables;
   // Queue to store the groups waiting to be seated
   private Queue<CustomerGroup> waitingGroups;
 
   /* Constructor */
   public SeatingManager(List<Table> tables) {
-    this.tables = tables.stream()
-        .collect(Collectors.toMap(table -> table, null));
+    this.tables = new HashMap<>();
     waitingGroups = new LinkedList<>();
+    for (Table table : tables) {
+      this.tables.put(table, null);
+    }
   }
 
   /* Group arrives and wants to be seated. */
   public void arrives(CustomerGroup group) {
-
+    if (group.size > 6 || group.size < 2) {
+      return;
+    }
+    Table optimalTable = null;
+    int minEmptySeats = Integer.MAX_VALUE;
+    for (Table table : tables.keySet()) {
+      if (table.size >= group.size && tables.get(table) == null && table.size - group.size < minEmptySeats) {
+        optimalTable = table;
+        minEmptySeats = table.size - group.size;
+      }
+    }
+    if (optimalTable != null) {
+      tables.put(optimalTable, group);
+    } else {
+      waitingGroups.add(group);
+    }
   }
 
   /* Whether seated or not, the group leaves the restaurant. */
@@ -34,4 +50,13 @@ public class SeatingManager {
   public Table locate(CustomerGroup group) {
     return null;
   }
+
+  public Map<Table, CustomerGroup> getTables() {
+    return tables;
+  }
+
+  public Queue<CustomerGroup> getWaitingGroups() {
+    return waitingGroups;
+  }
+
 }
