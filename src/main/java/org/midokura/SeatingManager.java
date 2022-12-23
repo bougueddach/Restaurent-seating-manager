@@ -1,7 +1,7 @@
 package org.midokura;
 
+import java.util.ArrayDeque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Queue;
@@ -15,7 +15,7 @@ public class SeatingManager {
   /* Constructor */
   public SeatingManager(List<Table> tables) {
     this.tables = new HashMap<>();
-    waitingGroups = new LinkedList<>();
+    waitingGroups = new ArrayDeque<>();
     for (Table table : tables) {
       this.tables.put(table, null);
     }
